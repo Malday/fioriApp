@@ -1,0 +1,36 @@
+---
+## this pipeline was manually created using SAP CI/CD Service as template
+general:
+  buildTool: "mta"
+service:
+  buildToolVersion: "MBTJ17N18"
+  stages:
+    Build:
+      ##Not working runFirst:
+       ##Not working command: "console. log(helloWorld) && npm install"
+stages:
+  Acceptance:
+    npmExecuteEndToEndTests: false
+    cloudFoundryDeploy: false
+  Release:
+    tmsExport: false
+    tmsUpload: false
+    cfApiEndpoint: "https://api.cf.sap.hana.ondemand.com"
+    cfOrg: "COELAC_dev-env"
+    cfSpace: "MALDAY"
+    cfCredentialsId: "cfdeploy"
+    deployType: "standard"
+    cloudFoundryDeploy: true
+  Build:
+    npmExecuteLint: false
+  Additional Unit Tests:
+    npmExecuteScripts: false
+  Malware Scan:
+    malwareExecuteScan: true
+  Compliance:
+    sonarExecuteScan: false
+steps:
+  artifactPrepareVersion:
+    versioningType: "cloud_noTag"
+  cloudFoundryDeploy:
+    mtaDeployParameters: "-f --version-rule ALL"
